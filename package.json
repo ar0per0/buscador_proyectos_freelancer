@@ -1,0 +1,20 @@
+{
+  "name": "proyectos-freelancer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Panel local de proyectos freelance",
+  "scripts": {
+    "start": "node web/server.js",
+    "refresh": "node refresh_all.js",
+    "refresh:freelancer": "node scrape_freelancer.js",
+    "refresh:workana": "node scrape_workana.js",
+    "refresh:soyfreelancer": "node scrape_soyfreelancer.js",
+    "check": "node --check web/server.js && node --check web/app.js && node --check scrape_freelancer.js && node --check scrape_workana.js && node --check scrape_soyfreelancer.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "puppeteer-core": "25.9.0"
+  }
+}

@@ -1,0 +1,18 @@
+services:
+  proyectos-freelancer:
+    image: ar0per0/buscador_proyectos_freelancer:latest
+    container_name: proyectos-freelancer
+    restart: unless-stopped
+    init: true
+    ports:
+      - "8081:8081"
+    environment:
+      DATA_DIR: /data
+      CHROMIUM_PATH: /usr/bin/chromium
+      TZ: Europe/Madrid
+    volumes:
+      - proyectos_freelancer_data:/data
+    shm_size: "1gb"
+
+volumes:
+  proyectos_freelancer_data:

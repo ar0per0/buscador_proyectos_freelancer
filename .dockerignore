@@ -1,0 +1,13 @@
+.git
+.gitignore
+node_modules
+npm-debug.log*
+Dockerfile*
+docker-compose*.yml
+*.tmp
+freelancer_jobs.json
+workana_jobs.json
+soyfreelancer_jobs.json
+seen_jobs.json
+favorite_jobs.json
+search_profiles.json

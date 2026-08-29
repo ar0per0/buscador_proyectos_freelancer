@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Proyectos Freelancer</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Panel local</p>
+        <h1>Proyectos Freelancer</h1>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="stats" aria-label="Resumen">
+      <article><span id="totalJobs">—</span><small>trabajos totales</small></article>
+      <article><span id="freelancerCount">—</span><small>trabajos de Freelancer</small><button id="refreshFreelancer" class="stats-updated refresh-stat" type="button" title="Actualizar Freelancer" aria-label="Actualizar Freelancer"><span class="refresh-icon" aria-hidden="true">↻</span><span id="freelancerUpdated">Actualizado —</span></button></article>
+      <article><span id="workanaCount">—</span><small>trabajos de Workana</small><button id="refreshWorkana" class="stats-updated refresh-stat" type="button" title="Actualizar Workana" aria-label="Actualizar Workana"><span class="refresh-icon" aria-hidden="true">↻</span><span id="workanaUpdated">Actualizado —</span></button></article>
+      <article><span id="soyfreelancerCount">—</span><small>trabajos de SoyFreelancer</small><button id="refreshSoyfreelancer" class="stats-updated refresh-stat" type="button" title="Actualizar SoyFreelancer" aria-label="Actualizar SoyFreelancer"><span class="refresh-icon" aria-hidden="true">↻</span><span id="soyfreelancerUpdated">Actualizado —</span></button></article>
+    </section>
+    <div class="refresh-status refresh-status-inline" id="refreshStatus" aria-live="polite"></div>
+
+    <section class="toolbar" aria-label="Filtros">
+      <div class="toolbar-header">
+        <button id="filterToggle" class="toolbar-toggle is-collapsed" type="button" aria-expanded="false" aria-controls="filtersContent">
+          <span><strong>Buscador y filtros</strong></span>
+          <span class="toolbar-toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m6 15 6-6 6 6"/></svg></span>
+        </button>
+        <label class="quick-search-field">
+          <span>Buscar trabajos</span>
+          <input id="searchInput" type="search" placeholder="Título, descripción o habilidad…" autocomplete="off">
+        </label>
+        <button id="advancedFiltersIndicator" class="advanced-filters-indicator" type="button" hidden></button>
+        <div class="quick-filters" aria-label="Filtros rápidos">
+          <label class="quick-favorite-filter" title="Mostrar solo favoritos">
+            <input id="favoritesOnlyFilter" type="checkbox" aria-label="Mostrar solo favoritos">
+            <span aria-hidden="true">☆</span>
+          </label>
+          <label class="quick-seen-filter"><input id="showSeenFilter" type="checkbox"> Vistos</label>
+        </div>
+      </div>
+      <div id="filtersContent" hidden>
+      <div class="filter-group profiles-group">
+        <div class="filter-group-heading">
+          <h2>Perfiles de búsqueda <span class="optional-label">(opcional)</span></h2>
+          <p>Guarda una combinación de filtros para recuperarla cuando la necesites.</p>
+        </div>
+        <div class="search-profiles-grid">
+          <label class="profile-name-field">
+            <span>Nombre del perfil</span>
+            <input id="profileName" type="text" maxlength="60" placeholder="Ej.: Diseño web reciente" autocomplete="off">
+          </label>
+          <label class="profile-select-field">
+            <span>Perfiles guardados</span>
+            <select id="profileSelect"><option value="">Selecciona un perfil…</option></select>
+          </label>
+          <div class="profile-actions">
+            <button id="saveProfile" type="button" class="primary profile-button">Guardar</button>
+            <button id="deleteProfile" type="button" class="secondary danger-button profile-button" disabled>Eliminar</button>
+          </div>
+        </div>
+        <p id="profileStatus" class="profile-status" aria-live="polite"></p>
+      </div>
+      <div class="filter-group search-group">
+        <div class="filter-group-heading">
+          <h2>Excluir palabras</h2>
+        </div>
+        <div class="search-grid single-search-grid">
+          <label class="search-field exclude-field">
+            <input id="excludeInput" type="search" placeholder="Ej.: crypto, apuestas, llamadas…" aria-label="Excluir palabras" autocomplete="off">
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="basic-filters-grid">
+          <label>
+            <span>Fuente</span>
+            <select id="sourceFilter"><option value="">Todas las plataformas</option></select>
+          </label>
+          <label>
+            <span>País</span>
+            <input id="countryFilter" class="filter-combobox" type="text" list="countryOptions" placeholder="Todos los países" autocomplete="off">
+            <datalist id="countryOptions"></datalist>
+            <small id="countryHint" class="field-hint"></small>
+          </label>
+          <label>
+            <span>Idioma</span>
+            <input id="languageFilter" class="filter-combobox" type="text" list="languageOptions" placeholder="Todos los idiomas" autocomplete="off">
+            <datalist id="languageOptions"></datalist>
+          </label>
+          <label>
+            <span>Habilidades</span>
+            <input id="skillFilter" class="filter-combobox" type="text" list="skillOptions" placeholder="Todas las habilidades" autocomplete="off">
+            <datalist id="skillOptions"></datalist>
+            <div id="selectedSkills" class="selected-skills" aria-live="polite"></div>
+          </label>
+          <label>
+            <span>Modalidad</span>
+            <select id="typeFilter">
+              <option value="">Todas</option>
+              <option value="hourly">Por hora</option>
+              <option value="fixed">Precio fijo</option>
+            </select>
+          </label>
+          <label>
+            <span>Ordenar por</span>
+            <select id="sortOrder">
+              <option value="newest">Más recientes</option>
+              <option value="oldest">Más antiguos</option>
+              <option value="title">Título A–Z</option>
+              <option value="country">País A–Z</option>
+              <option value="price-desc">Precio: más alto primero</option>
+              <option value="price-asc">Precio: más bajo primero</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="range-filters-grid">
+          <div class="range-filter-card price-range-field">
+            <span>Rango de precio</span>
+            <div class="price-values" aria-live="polite">
+              <strong id="minPriceValue">0 €</strong>
+              <strong id="maxPriceValue">—</strong>
+            </div>
+            <div id="priceRangeTrack" class="price-range-track">
+              <input id="minPriceFilter" type="range" min="0" max="1000" value="0" aria-label="Precio mínimo">
+              <input id="maxPriceFilter" type="range" min="0" max="1000" value="1000" aria-label="Precio máximo">
+            </div>
+          </div>
+          <div class="range-filter-card date-range-field">
+            <span>Fecha de publicación</span>
+            <div class="date-value" aria-live="polite"><strong id="dateFilterValue">Cualquier fecha</strong></div>
+            <div id="dateRangeTrack" class="date-range-track">
+              <input id="dateFilter" type="range" min="1" max="42" value="42" aria-label="Antigüedad máxima del anuncio">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar-actions">
+        <button id="clearFilters" type="button" class="secondary clear-filters">Limpiar todos los filtros</button>
+      </div>
+      </div>
+    </section>
+
+    <section id="loading" class="state">Cargando registros…</section>
+    <section id="error" class="state error" hidden></section>
+    <div id="resultsSummary" class="results-summary" aria-live="polite"></div>
+    <section id="jobGrid" class="job-grid" aria-live="polite"></section>
+
+    <nav id="pagination" class="pagination" aria-label="Paginación" hidden>
+      <button id="previousPage" type="button" class="secondary">← Anterior</button>
+      <span id="pageInfo"></span>
+      <button id="nextPage" type="button" class="secondary">Siguiente →</button>
+    </nav>
+  </main>
+
+  <dialog id="jobDialog">
+    <button id="closeDialog" class="dialog-close" type="button" aria-label="Cerrar detalle">×</button>
+    <div id="dialogContent"></div>
+    <button id="dialogFavoriteToggle" class="dialog-favorite-toggle" type="button" aria-label="Añadir a favoritos" aria-pressed="false"><span aria-hidden="true">☆</span></button>
+    <label class="dialog-seen-toggle"><input id="dialogSeenToggle" type="checkbox"> Visto</label>
+    <a id="dialogExternalLink" class="details dialog-external" target="_blank" rel="noopener noreferrer" hidden>Abrir anuncio ↗</a>
+  </dialog>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
