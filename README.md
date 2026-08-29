@@ -116,14 +116,14 @@ docker compose up -d --build
 Abrir el panel (el puerto externo actual del Compose es `8084`):
 
 ```text
-http://localhost:8084
+http://localhost:8081
 ```
 
-El puerto `8084` del equipo debe estar libre. Para cambiarlo, modifica únicamente la parte izquierda de esta línea en `docker-compose.yml`:
+El puerto `8081` del equipo debe estar libre. Para cambiarlo, modifica únicamente la parte izquierda de esta línea en `docker-compose.yml`:
 
 ```yaml
 ports:
-  - "8084:8081"
+  - "8081:8081"
 ```
 
 El puerto interno del contenedor sigue siendo `8081`. Si el servicio nativo usa el mismo puerto externo elegido, hay que detenerlo antes de iniciar el contenedor:
