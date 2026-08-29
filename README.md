@@ -10,6 +10,51 @@ Actualmente integra:
 
 La aplicación unifica los anuncios en una sola interfaz, convierte los presupuestos a euros y conserva en disco los proyectos vistos, favoritos y perfiles de búsqueda.
 
+Captura de la aplicación:
+![Diagrama](./captura_app_proyectos_freelancer.png)
+
+## Inicio rápido
+
+### 1. Crear `docker-compose.yml`
+
+Usa esta configuración:
+
+```yaml
+services:
+  proyectos-freelancer:
+    image: ar0per0/buscador_proyectos_freelancer:latest
+    container_name: proyectos-freelancer
+    restart: unless-stopped
+    init: true
+    ports:
+      - "8081:8081"
+    environment:
+      DATA_DIR: /data
+      CHROMIUM_PATH: /usr/bin/chromium
+      TZ: Europe/Madrid
+    volumes:
+      - proyectos_freelancer_data:/data
+    shm_size: "1gb"
+
+volumes:
+  proyectos_freelancer_data:
+```
+
+### 2. Levantar
+
+Ejecuta:
+
+```bash
+docker compose up -d
+```
+Acceso:
+
+```text
+http://IP_DEL_EQUIPO:8081
+```
+
+---
+
 ## Funciones principales
 
 - Actualización independiente de cada plataforma desde los bloques de resumen.
