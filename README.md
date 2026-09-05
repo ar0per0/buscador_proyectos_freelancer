@@ -1,5 +1,7 @@
 # Proyectos Freelancer
 
+> Proyecto construido con **OpenClaw + ChatGPT Codex**.
+
 Panel web local para recopilar, normalizar, consultar y organizar proyectos publicados en varias plataformas de trabajo freelance.
 
 Actualmente integra:
